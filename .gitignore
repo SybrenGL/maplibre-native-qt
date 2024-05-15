@@ -2,3 +2,5 @@
 *.user
 compile_commands.json
 docs/output
+build/
+install/
