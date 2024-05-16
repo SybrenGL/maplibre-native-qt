@@ -705,6 +705,11 @@ void Map::jumpTo(const CameraOptions &camera) {
     d_ptr->mapObj->jumpTo(mbglCamera);
 }
 
+/*!
+    \brief Move the camera to a point with animation effect.
+    \param camera The camera options.
+    \param animation The animation options.
+*/
 void Map::easeTo(const CameraOptions &camera, const AnimationOptions &animation){
     // Camera options
     
@@ -744,7 +749,54 @@ void Map::easeTo(const CameraOptions &camera, const AnimationOptions &animation)
 
     d_ptr->mapObj->easeTo(mbglCamera, mbglAnimation);
 
-};  
+};
+
+
+/*!
+    \brief Fly the camera to a point with animation effect.
+    \param camera The camera options.
+    \param animation The animation options.
+*/
+void Map::flyTo(const CameraOptions &camera, const AnimationOptions &animation){
+    // Camera options
+    
+    mbgl::CameraOptions mbglCamera;
+    if (camera.center.isValid()) {
+        const auto center = camera.center.value<Coordinate>();
+        mbglCamera.center = mbgl::LatLng{center.first, center.second};
+    }
+    if (camera.anchor.isValid()) {
+        const auto anchor = camera.anchor.value<QPointF>();
+        mbglCamera.anchor = mbgl::ScreenCoordinate{anchor.x(), anchor.y()};
+    }
+    if (camera.zoom.isValid()) {
+        mbglCamera.zoom = camera.zoom.value<double>();
+    }
+    if (camera.bearing.isValid()) {
+        mbglCamera.bearing = camera.bearing.value<double>();
+    }
+    if (camera.pitch.isValid()) {
+        mbglCamera.pitch = camera.pitch.value<double>();
+    }
+
+    mbglCamera.padding = d_ptr->margins;
+
+
+    // Animation options
+    mbgl::AnimationOptions mbglAnimation;
+    if (animation.duration.isValid()) {
+        mbglAnimation.duration = mbglAnimation.duration = std::chrono::duration_cast<mbgl::Clock::duration>(std::chrono::milliseconds(animation.duration.value<int>()));
+    }
+    if (animation.velocity.isValid()) {
+        mbglAnimation.velocity = animation.velocity.value<double>();
+    }
+    if (animation.minZoom.isValid()) {
+        mbglAnimation.minZoom = animation.minZoom.value<double>();
+    }
+
+    d_ptr->mapObj->flyTo(mbglCamera, mbglAnimation);
+
+}; 
 
 
 /*!

@@ -171,10 +171,10 @@ struct Q_MAPLIBRE_CORE_EXPORT CameraOptions {
 };
 
 struct Q_MAPLIBRE_CORE_EXPORT AnimationOptions {
-    QVariant duration; // int (milliseconds) or double (seconds), or std::chrono::duration
+    QVariant duration; // int
     QVariant velocity; // double
     QVariant minZoom; //double
-    QVariant easing; // ?
+    QVariant easing; // <mbgl::util::UnitBezier
     
 };
 

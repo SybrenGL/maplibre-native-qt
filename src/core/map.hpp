@@ -117,6 +117,7 @@ public:
 
     void jumpTo(const CameraOptions &);
     void easeTo(const CameraOptions &, const AnimationOptions &);
+    void flyTo(const CameraOptions &, const AnimationOptions &);
 
     void setGestureInProgress(bool inProgress);
 
