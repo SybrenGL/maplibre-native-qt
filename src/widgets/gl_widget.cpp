@@ -57,7 +57,35 @@ void GLWidget::paintGL() {
     d_ptr->m_map->render();
 }
 
+
+
+
+bool GLWidget::event(QEvent *event) {
+    if (event->type() == QEvent::Gesture) {
+        return d_ptr->gestureEvent(static_cast<QGestureEvent *>(event));
+    }
+    return QOpenGLWidget::event(event);
+}
+
+
 // GLWidgetPrivate
+
+bool GLWidgetPrivate::gestureEvent(QGestureEvent *event) {
+    if (QGesture *pinch = event->gesture(Qt::PinchGesture)) {
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    }
+    return true;
+}
+
+void GLWidgetPrivate::pinchTriggered(QPinchGesture *gesture) {
+    if (gesture->state() == Qt::GestureFinished) {
+        qreal factor = gesture->scaleFactor();
+        QPointF center = gesture->centerPoint();
+        m_map->scaleBy(factor, center);
+    }
+}
+
+
 
 GLWidgetPrivate::GLWidgetPrivate(QObject *parent, Settings settings)
     : QObject(parent),

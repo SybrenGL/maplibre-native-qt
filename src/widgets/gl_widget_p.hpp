@@ -8,6 +8,8 @@
 #include <QMapLibre/Settings>
 
 #include <memory>
+#include <QGestureEvent>
+#include <QPinchGesture>
 
 QT_BEGIN_NAMESPACE
 
@@ -29,6 +31,9 @@ public:
     void handleMousePressEvent(QMouseEvent *event);
     void handleMouseMoveEvent(QMouseEvent *event);
     void handleWheelEvent(QWheelEvent *event) const;
+    bool gestureEvent(QGestureEvent *event);
+    void pinchTriggered(QPinchGesture *gesture);
+
 
     std::unique_ptr<Map> m_map{};
     Settings m_settings;
