@@ -38,6 +38,8 @@ public:
     std::unique_ptr<Map> m_map{};
     Settings m_settings;
 
+    double initialPinchZoom;
+
 private:
     Q_DISABLE_COPY(GLWidgetPrivate);
 
