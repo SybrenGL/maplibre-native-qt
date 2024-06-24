@@ -80,11 +80,16 @@ bool GLWidgetPrivate::gestureEvent(QGestureEvent *event) {
     return true;
 }
 
-void GLWidgetPrivate::pinchTriggered(QPinchGesture *gesture) {
-    if (gesture->state() == Qt::GestureFinished) {
-        qreal factor = gesture->scaleFactor();
-        QPointF center = gesture->centerPoint();
-        m_map->scaleBy(factor, center);
+void GLWidget::pinchTriggered(QPinchGesture *gesture) {
+    qreal factor = gesture->scaleFactor();
+
+    if (gesture->state() == Qt::GestureStarted) {
+        // Initial pinch gesture - store the current zoom level
+        d_ptr->initialPinchZoom = d_ptr->m_map->getZoom();
+    } else if (gesture->state() == Qt::GestureUpdated) {
+        // Update zoom level dynamically during the pinch gesture
+        qreal newZoom = d_ptr->initialPinchZoom * factor;
+        d_ptr->m_map->setZoom(newZoom);
     }
 }
 
@@ -92,7 +97,8 @@ void GLWidgetPrivate::pinchTriggered(QPinchGesture *gesture) {
 
 GLWidgetPrivate::GLWidgetPrivate(QObject *parent, Settings settings)
     : QObject(parent),
-      m_settings(std::move(settings)) {}
+      m_settings(std::move(settings)),
+      initialPinchZoom(0.0) {}
 
 GLWidgetPrivate::~GLWidgetPrivate() = default;
 
