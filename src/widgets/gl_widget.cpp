@@ -85,11 +85,11 @@ void GLWidgetPrivate::pinchTriggered(QPinchGesture *gesture) {
 
     if (gesture->state() == Qt::GestureStarted) {
         // Initial pinch gesture - store the current zoom level
-        d_ptr->initialPinchZoom = d_ptr->m_map->getZoom();
+        initialPinchZoom = m_map->getZoom();
     } else if (gesture->state() == Qt::GestureUpdated) {
         // Update zoom level dynamically during the pinch gesture
-        qreal newZoom = d_ptr->initialPinchZoom * factor;
-        d_ptr->m_map->setZoom(newZoom);
+        qreal newZoom = initialPinchZoom * factor;
+        m_map->setZoom(newZoom);
     }
 }
 
