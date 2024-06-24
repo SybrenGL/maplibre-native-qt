@@ -80,7 +80,7 @@ bool GLWidgetPrivate::gestureEvent(QGestureEvent *event) {
     return true;
 }
 
-void GLWidget::pinchTriggered(QPinchGesture *gesture) {
+void GLWidgetPrivate::pinchTriggered(QPinchGesture *gesture) {
     qreal factor = gesture->scaleFactor();
 
     if (gesture->state() == Qt::GestureStarted) {
