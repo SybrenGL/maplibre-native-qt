@@ -11,7 +11,10 @@
 namespace QMapLibre {
 
 GLWidget::GLWidget(const Settings &settings)
-    : d_ptr(std::make_unique<GLWidgetPrivate>(this, settings)) {}
+    : d_ptr(std::make_unique<GLWidgetPrivate>(this, settings)) {
+        setAttribute(Qt::WA_AcceptTouchEvents);
+        grabGesture(Qt::PinchGesture);
+    }
 
 GLWidget::~GLWidget() {
     // Make sure we have a valid context so we
